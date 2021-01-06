@@ -6,10 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class EmployeeController {
     //display list of employees
     @GetMapping("/")
     public String viewHomePage(Model model) {
-        return findPaginated(1, model);
+        return findPaginated(1,"firstName", "asc", model);
 
 //        model.addAttribute("listEmployees", employeeService.getAllEmployees());
 //        return "index";
@@ -59,17 +56,26 @@ public class EmployeeController {
         return "redirect:/";
     }
 
+    // /page/1>sortField=name&sortDir=asc  => wanted result
     @GetMapping("/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
+    public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
+                                @RequestParam("sortField") String sortField,
+                                @RequestParam("sortDir") String sortDir,
+                                Model model) {
         int pageSize = 5;
 
-        Page<Employee> page = employeeService.findPaginated(pageNo, pageSize);
+        Page<Employee> page = employeeService.findPaginated(pageNo, pageSize, sortField, sortDir);
         List<Employee> listEmployee = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("listEmployess", listEmployee);
+        model.addAttribute("listEmployees", listEmployee);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "index";
     }
 
