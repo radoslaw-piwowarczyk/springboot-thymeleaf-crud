@@ -20,7 +20,6 @@ public class EmployeeController {
     @GetMapping("/")
     public String viewHomePage(Model model) {
         return findPaginated(1, "firstName", "asc", model);
-
 //        model.addAttribute("listEmployees", employeeService.getAllEmployees());
 //        return "index";
     }
@@ -67,17 +66,17 @@ public class EmployeeController {
         int pageSize = 5;
 
         Page<Employee> page = employeeService.findPaginated(pageNo, pageSize, sortField, sortDir);
-        List<Employee> listEmployee = page.getContent();
+        List<Employee> listEmployees = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("listEmployees", listEmployee);
 
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
+        model.addAttribute("listEmployees", listEmployees);
         return "index";
     }
 
