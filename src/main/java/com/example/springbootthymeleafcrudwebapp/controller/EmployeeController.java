@@ -19,7 +19,7 @@ public class EmployeeController {
     //display list of employees
     @GetMapping("/")
     public String viewHomePage(Model model) {
-        return findPaginated(1,"firstName", "asc", model);
+        return findPaginated(1, "firstName", "asc", model);
 
 //        model.addAttribute("listEmployees", employeeService.getAllEmployees());
 //        return "index";
@@ -40,11 +40,13 @@ public class EmployeeController {
         return "redirect:/";
     }
 
-    @GetMapping("/showFormUpdate/{id}")
-    public String showFormUpdate(@PathVariable(value = "id") long id, Model model) {
-        //get employee from the service
+    @GetMapping("/showFormForUpdate/{id}")
+    public String showFormForUpdate(@PathVariable(value = "id") long id, Model model) {
+
+        // get employee from the service
         Employee employee = employeeService.getEmployeeById(id);
-        //set employee as a model attribute to pre-populate the form
+
+        // set employee as a model attribute to pre-populate the form
         model.addAttribute("employee", employee);
         return "update_employee";
     }
