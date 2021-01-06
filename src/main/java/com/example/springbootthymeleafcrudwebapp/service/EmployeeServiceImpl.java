@@ -33,7 +33,13 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee = optional.get();
         } else {
             throw new RuntimeException("Employee not found for id ::" + id);
-            return employee;
+
         }
+        return employee;
+    }
+
+    @Override
+    public void deleteEmployeeById(long id) {
+        this.employeeRepository.deleteById(id);
     }
 }
