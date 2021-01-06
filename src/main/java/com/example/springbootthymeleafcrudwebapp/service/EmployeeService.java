@@ -11,5 +11,6 @@ public interface EmployeeService {
     void saveEmployee(Employee employee);
     Employee getEmployeeById(long id);
     void deleteEmployeeById(long id);
-    Page<Employee> findPaginated(int pageNo, int page);
+    //changed the method from only paging to also sorting by adding sortField and sortDirection(ASC,DESC)
+    Page<Employee> findPaginated(int pageNo, int page, String sortField, String sortDirection);
 }
